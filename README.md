@@ -4,4 +4,5 @@ Material complementar do treinamento do Udemy de fundamentos de Apache Nifi.
 
 
 ## Indice:
-* [Instalaçao Apache Nifi - Unix](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/instalacao_unix.md)
+* [Instalação Apache Nifi - Unix](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/instalacao_unix.md)
+* [Instalacão Apache Nifi - Windows](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/instalacao_windows.md)
