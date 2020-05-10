@@ -23,13 +23,12 @@ O Nifi para iniciar precisa que se configure uma variavel de ambiente JAVA_HOME,
 
 **Entre no explorer e clique com o botão direito do mouse em "este computador" e clica em propriedades.**<br>
 ![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/Imagem%2010-05-2020%20a%CC%80s%2018.15.jpeg)
+
 **Clique em configurações avançadas do sistema**<br>
 ![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/Imagem%2010-05-2020%20a%CC%80s%2018.17.jpeg)
+
 **Clique em variáveis de ambiente**<br>
 ![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/Imagem%2010-05-2020%20a%CC%80s%2018.20.jpeg)
+
 **Clique em novo e adicione o nome da variável (JAVA_HOME) e o caminho**<br>
 ![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/Imagem%2010-05-2020%20a%CC%80s%2018.22.jpeg)
-
-
-** 
-
