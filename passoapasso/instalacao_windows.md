@@ -38,3 +38,19 @@ Para esse instalação vamos usar o arquivo .zip fazendo o download do link abai
 
 http://us.mirrors.quenda.co/apache/nifi/1.11.4/nifi-1.11.4-bin.zip
 
+## Descompactando e iniciando o serviço.
+Iremos descompactar o arquivo .zip baixado e na sua pasta terá a seguinte distribuição:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/AC0D854F-2FA6-4193-9CAC-3E026A924746.jpeg)
+
+Abra o prompt do MS-DOS, entre nesse diretório descompactado, no diretório bin e execute o comando abaixo:
+```
+run-nifi.bat
+```
+
+Após executar esse comando, caso a variável do JAVA_HOME tenha sido setada, o processo de start do Nifi será iniciado e pode ser verificado na pasta logs no arquivo nifi-app.log.
+
+Quando aparecer que os serviços na porta 8080 estão disponiveis (o que leva uns 4 minutos), só acessar o navegador no endereço abaixo e validar se o serviço do Nifi foi iniciado.
+
+http://localhost:8080
+
+Se tudo correu bem, você verá a página inicial do Nifi.
