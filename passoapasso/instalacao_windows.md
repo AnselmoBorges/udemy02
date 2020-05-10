@@ -32,3 +32,9 @@ O Nifi para iniciar precisa que se configure uma variavel de ambiente JAVA_HOME,
 
 **Clique em novo e adicione o nome da variável (JAVA_HOME) e o caminho**<br>
 ![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/Imagem%2010-05-2020%20a%CC%80s%2018.22.jpeg)
+
+## Fazendo o Download do Apache Nifi para Windows:
+Para esse instalação vamos usar o arquivo .zip fazendo o download do link abaixo:
+````
+http://us.mirrors.quenda.co/apache/nifi/1.11.4/nifi-1.11.4-bin.zip
+````
