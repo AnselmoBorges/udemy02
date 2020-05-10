@@ -60,4 +60,5 @@ Caso as mensagens apareçam assim:
 http://localhost:8080/
 ```
 Se tudo deu certo, você vai ver a tela abaixo:
-[](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/nifi.png)
+[![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/nifi.png)
+
