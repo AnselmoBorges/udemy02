@@ -64,5 +64,5 @@ Caso as mensagens apareçam assim:
 http://127.0.0.1:18080/nifi-registry
 ```
 Se tudo deu certo, você vai ver a tela abaixo:
-[![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/nifi.png)
+[![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/72E646DB-975A-4B8B-BCC4-7C3121D74FF4_4_5005_c.jpeg)
 
