@@ -1,4 +1,4 @@
-# Instalação Nifi Regostry no Windows
+# Instalação Nifi Registry no Windows
 * **Criado por:** Anselmo Borges
 * **Última atualização:** 11.05.2020
 
