@@ -88,9 +88,20 @@ Creating pgadmin4      ... done
 Se essas mensagens foram exibidas amigos(as) vocês estão prontos para começar, existe outras configurações bem específicas que temos que fazer ainda mas já temos um ambiente (60% do projeto foi concluído acredite).
 
 ## Configurando Bibliotecas de acesso ao Postgres e criação das tabelas:
-Nesse passo vamos realizar a configuração da biblioteca JDBC Postgres que vai permitir com que o Nifi faça acesso aos dados do Postgres via controller service. Também vamos criar a seguinte estrutura no Potgres:
-* **Criar o Schema covid:** O Schema no postgres é um conjunto lógico que contem os dados como tabelas, views, procedures e etc.
-* **Criar as 2 tabelas usadas no postgres** Nesse passo vamos criar a tabela covid_dados e a covid_ibge, cujo a criação dessa estrutura está no arquivo.sql que está no repositorio Git que baixamos a pouco no diretório udemy02/script/estrutura_postgres.sql.
+Nesse passo vamos realizar a configuração da biblioteca JDBC Postgres que vai permitir com que o Nifi faça acesso aos dados do Postgres via controller service. 
+
+## Importando o Template no Nifi:
+Como sou um cara muito legal já deixei um template configurado, no vídeo eu explico o que cada uma das partes realiza nesse processo. O template está na pasta templates e vamos fazer a importação dele da seguinte forma, primeiro logamos no Nifi.
+```
+http://localhost:8080
+```
+Agora entramos em upload template:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/265D64CE-A3B5-4E57-8762-F432BCF6AC10_4_5005_c.jpeg)
+
+Depois clicamos em select e depois em upload:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/A784D852-5D09-4256-B984-98F8EFFF402B_4_5005_c.jpeg)
+
+Agora com o template importado quando vamos no menu superior principal e arrastamos o icone do template para o Flow ele mostra a opção mapa_covid. Só dar OK e está importado.
 
 ### Jogando o jdbc dentro do container do Nifi:
 No repositorio Git que baixamos, existe uma pasta chamada libs, vamos mover o conteudo desse diretorio para dentro do container nifi com o comando abaixo, **partindo do principío que estamos na pasta udemy02**:
@@ -107,6 +118,10 @@ docker cp cacerts nifi:/nifi/libs/
 ```
 **Caso esteja usando o Linux coloque um sudo na frente do comando docker**
 
+Também vamos criar a seguinte estrutura no Potgres:
+* **Criar o Schema covid:** O Schema no postgres é um conjunto lógico que contem os dados como tabelas, views, procedures e etc.
+* **Criar as 2 tabelas usadas no postgres** Nesse passo vamos criar a tabela covid_dados e a covid_ibge, cujo a criação dessa estrutura está no arquivo.sql que está no repositorio Git que baixamos a pouco no diretório udemy02/script/estrutura_postgres.sql.
+
 ### Criando a estrutura Postgres via PGAdmin4:
 Vamos entrar via navegador no endereço abaixo:
 ```
@@ -116,15 +131,28 @@ Feito isso a pagina do PGadmin4 vai ser aberta solicitando o login (caso não te
 * **Usuário:** seuemail@email.com.br
 * **Senha:** suasenha
 
+Logue na pagina do PGAdmin4:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/30965F19-7579-48E2-BFA9-93837D8D3C54.jpeg)
+
+Após logado vá em servers e adicione um novo server:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/C8675E38-8EDA-4934-B5DE-D2CDA524F324_4_5005_c.jpeg)
+
 Feito isso você será levado a pagina inicial do PGAmin4 onde vamos cadastrar um novo servidor, entre com os dados abaixo (caso não tenha alterado no compose também):
 * **Nome:** Projetao
 * **Host:** postgres (pois é o nome que demos no Docker compose)
 * **Usuário:** postgres
 * **Senha:** suasenha 
 
-As demais informações não são necessárias. Conecte-se ao banco Potgres e vamos abrir a execução de queries para importar o estrutura_postgres.sql citado acima, o mesmo se encontra no diretorio 
+Agora adicione projetão no nome do server:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/28F2073D-7284-4080-8961-B86E01E30E3A.jpeg)
 
-Na imagem abaixo, podemos ver como fazer isso mais se ficar dúvida veja o vídeo.
+Após isso colocar o host como postgres(pois é o nome do container e eles se resolvem):<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/408D3B24-6C6B-4F65-BC8A-8EA10FABBE25.jpeg)
+
+Feito isso já temos o servidor configurado, clicamos no database e na aba lá em cima clicamos em "Query Tool" para importar e executar a nossa query.<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/57F3FFFE-5BDC-40D0-924E-6EA6FE1149F1.jpeg)
+
+Importar o arquivo estrutura_postgres.sql citado acima, o mesmo se encontra no diretorio udemy02/scripts/
 
 Executando o arquivo criamos as seguintes estruturas:
 * Criação do schema covid
@@ -134,7 +162,9 @@ Executando o arquivo criamos as seguintes estruturas:
 ## Importando dados do arquivo CSV para a tabela covid.covid_ibge:
 Agora nesse projeto temos uma única tabela estática (que não será modificada) que é a do código do IBGE com a longitude e latitude de cada município, na outra tabela vamos trazer os dados do API, o Nifi vai fazer o processo de Merge dessas 2 tabelas e o resultado vai ser um JSON com os dados da API + a Geolocalização dos municípios, possibilitando assim mostrar no Kibana qual o numero de casos por municipio em um mapa como mostrado no video do capítulo anterior:
 
-* Verificar como é feito no vídeo:
+Expandindo a estrutura do schema covid criado (dê refresh caso não exibir), vamos em tables e achamos a tabela municipios, damos botão direito e importamos a mesma do arquivo **municipios.csv** que está no diretório udemy02/datasets em um esquema muito parecido como o script que rodamos acima.
+
+Feito isso nossa parte do Postgres já está pronta.
 
 ## Criando o indice no Elasticsearch:
 O indice no Elaticsearch funciona como um database em um banco de dados convencional. Por padrão o Elaticsearch cria o indice se você não possui um, mas do jeito dele, as vezes ele não faz o mapping com os datatypes corretos. Sendo assim vamos deixar a criação no esquema.
@@ -144,13 +174,3 @@ O Dev_tools é a ferramenta onde rodamos as queries do Elasticsearch, vamos pega
 ```
 http://localhost:5601
 ```
-### Importando o Template no Nifi:
-Como sou um cara muito legal já deixei um template configurado, no vídeo eu explico o que cada uma das partes realiza nesse processo. O template está na pasta templates e vamos fazer a importação dele da seguinte forma, primeiro logamos no Nifi.
-```
-http://localhost:8080
-```
-Agora entramos em upload template:
-[!](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/265D64CE-A3B5-4E57-8762-F432BCF6AC10_4_5005_c.jpeg)
-
-Depois clicamos em select e depois em upload:
-[!](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/A784D852-5D09-4256-B984-98F8EFFF402B_4_5005_c.jpeg)
