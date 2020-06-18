@@ -90,13 +90,20 @@ Se essas mensagens foram exibidas amigos(as) vocês estão prontos para começar
 ## Configurando Bibliotecas de acesso ao Postgres e criação das tabelas:
 Nesse passo vamos realizar a configuração da biblioteca JDBC Postgres que vai permitir com que o Nifi faça acesso aos dados do Postgres via controller service. Também vamos criar a seguinte estrutura no Potgres:
 * **Criar o Schema covid:** O Schema no postgres é um conjunto lógico que contem os dados como tabelas, views, procedures e etc.
-* **Criar as 2 tabelas usadas no postgres** Nesse passo vamos criar a tabela covid_dados e a covid_ibge, cujo a criação dessa estrutura está no arquivo.sql que está no repositorio Git que baixamos a pouco no diretório udemy02/sql/criar_estrutura.sql.
+* **Criar as 2 tabelas usadas no postgres** Nesse passo vamos criar a tabela covid_dados e a covid_ibge, cujo a criação dessa estrutura está no arquivo.sql que está no repositorio Git que baixamos a pouco no diretório udemy02/script/estrutura_postgres.sql.
 
 ### Jogando o jdbc dentro do container do Nifi:
 No repositorio Git que baixamos, existe uma pasta chamada libs, vamos mover o conteudo desse diretorio para dentro do container nifi com o comando abaixo, **partindo do principío que estamos na pasta udemy02**:
 ```
 cd libs
 docker cp postgresql-42.2.11.jar nifi:/nifi/libs/
+```
+### Jogando o certificado dentro do container do Nifi:
+No repositorio Git que baixamos, existe uma pasta chamada certificados, esse cara é um truststore do java que precisamos pra fazer download em APIs que usam HTTPS, você pode criar um seu mas já deixei ele configurado, a senha de dele é "senha123", agora vamos movimentá-lo para o container assim como o anterior:
+```
+cd ..
+cd certificados
+docker cp cacerts nifi:/nifi/libs/
 ```
 **Caso esteja usando o Linux coloque um sudo na frente do comando docker**
 
@@ -115,25 +122,35 @@ Feito isso você será levado a pagina inicial do PGAmin4 onde vamos cadastrar u
 * **Usuário:** postgres
 * **Senha:** suasenha 
 
-As demais informações não são necessárias. Conecte-se ao banco Potgres e vamos abrir a execução de queries para importar o cria_estrutura.sql citado acima.
+As demais informações não são necessárias. Conecte-se ao banco Potgres e vamos abrir a execução de queries para importar o estrutura_postgres.sql citado acima, o mesmo se encontra no diretorio 
 
 Na imagem abaixo, podemos ver como fazer isso mais se ficar dúvida veja o vídeo.
-
-<<IMAGEM>>
 
 Executando o arquivo criamos as seguintes estruturas:
 * Criação do schema covid
 * Criação da tabela covid.covid_casos
-* Criação da tabela covid.covid_ibge
+* Criação da tabela covid.municipios
 
-### Importando dados do arquivo CSV para a tabela covid.covid_ibge:
-Agora nesse projeto temos uma única tabela estática (que não será modificada) que é a do código do IBGE com a longitude e latitude de cada município, na outra tabela vamos trazer os dados do API, o Nifi vai fazer o processo de Merge dessas 2 tabelas e o resultado vai ser um JSON com os dados da API + a Geolocalização dos municípios, possibilitando assim mostrar no Kibana qual o numero de casos por municipio em um mapa, parecido com esse abaixo:
+## Importando dados do arquivo CSV para a tabela covid.covid_ibge:
+Agora nesse projeto temos uma única tabela estática (que não será modificada) que é a do código do IBGE com a longitude e latitude de cada município, na outra tabela vamos trazer os dados do API, o Nifi vai fazer o processo de Merge dessas 2 tabelas e o resultado vai ser um JSON com os dados da API + a Geolocalização dos municípios, possibilitando assim mostrar no Kibana qual o numero de casos por municipio em um mapa como mostrado no video do capítulo anterior:
 
-<>
+* Verificar como é feito no vídeo:
 
-O procedimento segue nas imagens abaixo mas caso fique duvida, veja o vídeo:
+## Criando o indice no Elasticsearch:
+O indice no Elaticsearch funciona como um database em um banco de dados convencional. Por padrão o Elaticsearch cria o indice se você não possui um, mas do jeito dele, as vezes ele não faz o mapping com os datatypes corretos. Sendo assim vamos deixar a criação no esquema.
 
-* Import table
-* Mostrar onde está o Arquivo
-* realizar o import
+### Entrando no Kibana e deixando o Script no dev_tools:
+O Dev_tools é a ferramenta onde rodamos as queries do Elasticsearch, vamos pegar o script create_mapping.es no diretorio scripts e já deixar na tela pronto pra rodar. Para entrar no Kibana basta entrar no link abaixo e no dev_tools o icone da chavinha na lateral esquerda.
+```
+http://localhost:5601
+```
+### Importando o Template no Nifi:
+Como sou um cara muito legal já deixei um template configurado, no vídeo eu explico o que cada uma das partes realiza nesse processo. O template está na pasta templates e vamos fazer a importação dele da seguinte forma, primeiro logamos no Nifi.
+```
+http://localhost:8080
+```
+Agora entramos em upload template:
+[!](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/265D64CE-A3B5-4E57-8762-F432BCF6AC10_4_5005_c.jpeg)
 
+Depois clicamos em select e depois em upload:
+[!](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/A784D852-5D09-4256-B984-98F8EFFF402B_4_5005_c.jpeg)
