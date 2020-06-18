@@ -174,3 +174,56 @@ O Dev_tools é a ferramenta onde rodamos as queries do Elasticsearch, vamos pega
 ```
 http://localhost:5601
 ```
+## Apresentando como funciona a API do Brasil.io
+A API do Brasil.io disponibiliza dados sobre o Covid diáriamente, coletando através de robos, informações em sites da secretaria de saúde da cada municipio sobre obitos e novos casos de Covid 19.
+
+O endereço da API é a seguinte:
+```
+https://brasil.io/api/dataset/covid19/caso/data/
+```
+Nessa API tem exatamente os mesmos campos da tabela do Postgres, covid_casos, mas atpre pra usar um exemplo legal e didático, o dado vem no formato chave valor, não é um formato com fizemos o CSV e que é quase um padrão do mercado de dados. Por isso vamos tratar esse cara de documentos para linhas (NoSQL para SQL/Não relacional para Relacional), olha o nivel em que estamos trabalhando e as possibilidades que o Nifi nos dá.
+
+Nessa API tem exatamente os mesmos campos da tabela do Postgres, covid_casos, mas atpre pra usar um exemplo legal e didático, o dado vem no formato chave valor, não é um formato com fizemos o CSV e que é quase um padrão do mercado de dados. Por isso vamos tratar esse cara de documentos para linhas (NoSQL para SQL/Não relacional para Relacional), olha o nivel em que estamos trabalhando e as possibilidades que o Nifi nos dá. que vou fazer a configuraçã
+Nessa API tem exatamente os mesmos campos da tabela do Postgres, covid_casos, mas atpre pra usar um exemplo legal e didático, o dado vem no formato chave valor, não é um formato com fizemos o CSV e que é quase um padrão do mercado de dados. Por isso vamos tratar esse cara de documentos para linhas (NoSQL para SQL/Não relacional para Relacional), olha o nivel em que estamos trabalhando e as possibilidades que o Nifi nos dá.
+
+Outro ponto de atenção é que pra fins didáticos, estou usando um processor pra cada page do API, mas é possivel usar um processor que faz o count das paginas pra mim e eu use um só, caso queira fazer isso como desafio, fique a vontade.
+
+O desenho de como vai ficar o processo é mais ou menos o seguinte:<br>
+![](https://github.com/AnselmoBorges/udemy02/blob/master/passoapasso/IMG_0171.PNG)
+
+Fontes:
+* Dados da API
+* Tabela municipios do Postgres
+
+Tratamento:
+* Conversão dos dados do API para tabela do Postgres
+* Start de Join criando consolidada via NiFI no Postgres
+* Transformação de tabela para Documentos no Elasticsearch enriquecida com GeoLocalização.
+
+Preparação e visualização:
+* Mapping dos dados no Elasticsearch para visualização.
+* Exibição dos dados em dashboards do Kibana.
+
+## Explicação dos processors de tratamento dos dados.
+Esse não tenho como explicar via texto, o esquema e ver o vídeo e se não entendeu algo me chame!
+
+Conseguiu fazer? Tire uma foto ou faça um video curtinho, poste no Linkedin e me marque pra dar uma moral! =)
+Um ajuda o outro aqui!
+
+Boa sorte e conte comigo no caso de duvidas.
+Anselmo Borges.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
